@@ -46,7 +46,7 @@ function ConfirmModal({ slot, onConfirm, onCancel }) {
             <FiX size={14} style={{ marginRight: 6 }} /> Cancel
           </button>
           <button className="btn btn-primary" onClick={onConfirm}>
-            <FiCheck size={14} style={{ marginRight: 6 }} /> Confirm Booking
+            <FiCheck size={14} style={{ marginRight: 6 }} /> Confirm 
           </button>
         </div>
       </div>

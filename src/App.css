@@ -715,7 +715,12 @@ body {
   width: 100%;
 }
 
-.modal-actions .btn { flex: 1; }
+.modal-actions .btn { 
+  flex: 1; 
+  min-width: 0;
+  font-size: 13px;
+  padding: 10px 16px;
+}
 
 /* ── Animations ── */
 @keyframes fadeIn {
