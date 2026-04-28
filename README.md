@@ -46,8 +46,8 @@
 ---
 
 ## 🔗 Project Links
-*   **Live Demo:** [Insert Your Vercel/Netlify Link Here]
-*   **GitHub Repository:** [Insert Your GitHub Link Here]
+*   **Live Demo:(https://tiny-paletas-b012f5.netlify.app/)
+*   **GitHub Repository:(https://github.com/AmanaAkterKona/mini-class-scheduler.git)
 
 ---
 
