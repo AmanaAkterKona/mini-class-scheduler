@@ -1,26 +1,39 @@
 import { useState, useEffect } from 'react'
 import SlotForm from './SlotForm'
 import SlotList from './SlotList'
-import { getSlots, addSlot, saveSlots } from '../utils/storage'
+import { getSlots, addSlot, deleteSlot } from '../utils/storage'
 
 const TEACHER_NAME = 'Mr. Rahman'
 
 function TeacherDashboard() {
   const [slots, setSlots] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    setSlots(getSlots())
+    fetchSlots()
   }, [])
 
-  const handleAdd = ({ date, time }) => {
-    const newSlot = addSlot({ date, time })
+  const fetchSlots = async () => {
+    try {
+      setLoading(true)
+      const data = await getSlots()
+      setSlots(data)
+    } catch {
+      setError('Failed to load slots.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleAdd = async ({ date, time }) => {
+    const newSlot = await addSlot({ date, time })
     setSlots((prev) => [...prev, newSlot])
   }
 
-  const handleDelete = (slotId) => {
-    const updated = slots.filter((s) => s.id !== slotId)
-    saveSlots(updated)
-    setSlots(updated)
+  const handleDelete = async (slotId) => {
+    await deleteSlot(slotId)
+    setSlots((prev) => prev.filter((s) => s._id !== slotId))
   }
 
   const totalSlots = slots.length
@@ -55,7 +68,13 @@ function TeacherDashboard() {
 
       <div className="section">
         <h2 className="section-title">All Slots</h2>
-        <SlotList slots={slots} onDelete={handleDelete} showDeleteBtn={true} />
+        {loading ? (
+          <div className="empty-state"><p>Loading slots...</p></div>
+        ) : error ? (
+          <div className="empty-state"><p>{error}</p></div>
+        ) : (
+          <SlotList slots={slots} onDelete={handleDelete} showDeleteBtn={true} />
+        )}
       </div>
     </div>
   )

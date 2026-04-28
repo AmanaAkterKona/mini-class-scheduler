@@ -1,40 +1,39 @@
-import { useState } from 'react'
-import TeacherDashboard from './components/TeacherDashboard'
-import StudentView from './components/StudentView'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './routes/ProtectedRoute'
+import Landing from './pages/Landing'
+import Login from './pages/Login'
+import TeacherDashboard from './pages/teacher/TeacherDashboard'
+import StudentDashboard from './pages/student/StudentDashboard'
 import './App.css'
 
 function App() {
-  const [activeView, setActiveView] = useState('teacher')
-
   return (
-    <div className="app">
-      <header className="app-header">
-        <div className="header-inner">
-          <div className="logo">
-            <span className="logo-icon">◈</span>
-            <span className="logo-text">ClassSync</span>
-          </div>
-          <nav className="nav">
-            <button
-              className={`nav-btn ${activeView === 'teacher' ? 'active' : ''}`}
-              onClick={() => setActiveView('teacher')}
-            >
-              <span>Teacher</span>
-            </button>
-            <button
-              className={`nav-btn ${activeView === 'student' ? 'active' : ''}`}
-              onClick={() => setActiveView('student')}
-            >
-              <span>Student</span>
-            </button>
-          </nav>
-        </div>
-      </header>
-
-      <main className="app-main">
-        {activeView === 'teacher' ? <TeacherDashboard /> : <StudentView />}
-      </main>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/teacher"
+            element={
+              <ProtectedRoute role="teacher">
+                <TeacherDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student"
+            element={
+              <ProtectedRoute role="student">
+                <StudentDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

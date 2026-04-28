@@ -46,7 +46,7 @@ function ConfirmModal({ slot, onConfirm, onCancel }) {
             <FiX size={14} style={{ marginRight: 6 }} /> Cancel
           </button>
           <button className="btn btn-primary" onClick={onConfirm}>
-            <FiCheck size={14} style={{ marginRight: 6 }} /> Confirm 
+            <FiCheck size={14} style={{ marginRight: 6 }} /> Confirm
           </button>
         </div>
       </div>
@@ -85,7 +85,7 @@ function SlotList({ slots, onBook, onDelete, showBookBtn = false, showDeleteBtn 
 
   const handleConfirm = () => {
     if (pendingSlot) {
-      onBook(pendingSlot.id)
+      onBook(pendingSlot._id)
       setPendingSlot(null)
     }
   }
@@ -124,7 +124,7 @@ function SlotList({ slots, onBook, onDelete, showBookBtn = false, showDeleteBtn 
       ) : (
         <div className="slot-list">
           {filtered.map((slot) => (
-            <div key={slot.id} className={`slot-card ${slot.status}`}>
+            <div key={slot._id} className={`slot-card ${slot.status}`}>
               <div className="slot-info">
                 <span className="slot-date">
                   <FiCalendar size={11} style={{ marginRight: 5 }} />
@@ -154,7 +154,7 @@ function SlotList({ slots, onBook, onDelete, showBookBtn = false, showDeleteBtn 
                   </button>
                 )}
                 {showDeleteBtn && (
-                  <button className="btn btn-delete" onClick={() => onDelete(slot.id)}>
+                  <button className="btn btn-delete" onClick={() => onDelete(slot._id)}>
                     <FiX size={13} />
                   </button>
                 )}

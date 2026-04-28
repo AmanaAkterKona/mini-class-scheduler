@@ -7,21 +7,34 @@ const STUDENT_NAME = 'Rahim'
 function StudentView() {
   const [slots, setSlots] = useState([])
   const [booked, setBooked] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setSlots(getSlots())
+    fetchSlots()
   }, [])
+
+  const fetchSlots = async () => {
+    try {
+      setLoading(true)
+      const data = await getSlots()
+      setSlots(data)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const availableSlots = slots.filter((s) => s.status === 'available')
 
-  const handleBook = (slotId) => {
-    const success = bookSlot(slotId, STUDENT_NAME)
-    if (success) {
-      const updated = getSlots()
-      setSlots(updated)
-      const slot = updated.find((s) => s.id === slotId)
-      setBooked(slot)
+  const handleBook = async (slotId) => {
+    try {
+      const updated = await bookSlot(slotId, STUDENT_NAME)
+      setSlots((prev) =>
+        prev.map((s) => (s._id === slotId ? updated : s))
+      )
+      setBooked(updated)
       setTimeout(() => setBooked(null), 3000)
+    } catch (err) {
+      alert(err.message)
     }
   }
 
@@ -45,11 +58,15 @@ function StudentView() {
           Available Slots
           <span className="section-count">{availableSlots.length}</span>
         </h2>
-        <SlotList
-          slots={availableSlots}
-          onBook={handleBook}
-          showBookBtn={true}
-        />
+        {loading ? (
+          <div className="empty-state"><p>Loading slots...</p></div>
+        ) : (
+          <SlotList
+            slots={availableSlots}
+            onBook={handleBook}
+            showBookBtn={true}
+          />
+        )}
       </div>
     </div>
   )

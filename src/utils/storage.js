@@ -1,39 +1,39 @@
-const SLOTS_KEY = 'classsync_slots'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
-export const getSlots = () => {
-  try {
-    const data = localStorage.getItem(SLOTS_KEY)
-    return data ? JSON.parse(data) : []
-  } catch {
-    return []
-  }
+export const getSlots = async () => {
+  const res = await fetch(`${API_URL}/slots`)
+  if (!res.ok) throw new Error('Failed to fetch slots')
+  return res.json()
 }
 
-export const saveSlots = (slots) => {
-  localStorage.setItem(SLOTS_KEY, JSON.stringify(slots))
+export const addSlot = async (slot) => {
+  const res = await fetch(`${API_URL}/slots`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(slot),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || 'Failed to add slot')
+  return data
 }
 
-export const addSlot = (slot) => {
-  const slots = getSlots()
-  const newSlot = {
-    id: Date.now().toString(),
-    date: slot.date,
-    time: slot.time,
-    status: 'available',
-    bookedBy: null,
-    createdAt: new Date().toISOString(),
-  }
-  slots.push(newSlot)
-  saveSlots(slots)
-  return newSlot
+export const bookSlot = async (slotId, studentName) => {
+  const res = await fetch(`${API_URL}/slots/${slotId}/book`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ studentName }),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || 'Failed to book slot')
+  return data
 }
 
-export const bookSlot = (slotId, studentName) => {
-  const slots = getSlots()
-  const idx = slots.findIndex((s) => s.id === slotId)
-  if (idx === -1) return false
-  slots[idx].status = 'booked'
-  slots[idx].bookedBy = studentName
-  saveSlots(slots)
+export const deleteSlot = async (slotId) => {
+  const res = await fetch(`${API_URL}/slots/${slotId}`, {
+    method: 'DELETE',
+  })
+  if (!res.ok) throw new Error('Failed to delete slot')
   return true
 }
+
+export const saveSlots = () => {} // kept for compatibility
