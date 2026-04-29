@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 const VIDEOS = [
-  '/V1.mp4',
-  '/V2.mp4',
-  '/V3.mp4',
+  'https://res.cloudinary.com/dlqkxrblv/video/upload/v1777425491/V1_nxcp8r.mp4',
+  'https://res.cloudinary.com/dlqkxrblv/video/upload/v1777425514/V2_qqmb42.mp4',
+  'https://res.cloudinary.com/dlqkxrblv/video/upload/v1777425543/V3_w7jyxf.mp4',
 ]
 
 const styles = {
@@ -343,4 +343,4 @@ function Hero() {
   )
 }
 
-export default Hero 
+export default Hero
