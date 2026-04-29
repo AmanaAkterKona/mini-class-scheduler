@@ -1,103 +1,147 @@
 
-## 🚀 How to Run Locally
+# ClassSync — Mini Class Scheduling and Dashboard System
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/your-username/mini-class-scheduler.git](https://github.com/your-username/mini-class-scheduler.git)
-    cd mini-class-scheduler
-    ```
+A production-grade class scheduling platform where teachers create time slots and students book them.
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Start the development server:**
-    ```bash
-    npm run dev
-    ```
-
-4.  **Access the app:**
-    Open [http://localhost:5173](http://localhost:5173) in your browser.
+🔗 **Live Demo:** https://tiny-paletas-b012f5.netlify.app
+📁 **GitHub:** https://github.com/AmanaAkterKona/mini-class-scheduler
 
 ---
 
-## 🔐 Credentials for Testing
-| Role | Username | Password |
-| :--- | :--- | :--- |
-| **Teacher** | Mr. Rahman | *(No auth required for demo)* |
-| **Student** | Rahim | *(No auth required for demo)* |
+## How to Run the Project
 
-> **Note:** Use the Toggle/Nav buttons at the top to switch between the Teacher and Student roles instantly.
+### Frontend
 
----
-
-## 📝 Implementation Logic
-*   **Overlap Check:** Before adding a slot, the system compares the new start/end time against existing slots in `localStorage` to ensure a 15-minute buffer.
-*   **Past Date Validation:** Using JavaScript `Date()` object to block any slot creation for times that have already passed.
-*   **Data Flow:** Centralized state managementEi assignment-er requirements ebong tomar provide kora project structure (screenshot onujayi) base kore ekta professional `README.md` file niche deya holo. Ami ekhane backend ebong frontend er folder structure update kore diyechi jate eta dekhlei ekjon reviewer bujhte pare tumi koto gochano bhabe kaj koro.
-
----
-
-# 🚀 ClassSync — Mini Class Scheduling System
-
-**ClassSync** is a production-grade scheduling platform designed to streamline the interaction between teachers and students. It allows teachers to manage 15-minute time slots while enabling students to book available sessions in real-time.
-
----
-
-## 🔗 Project Links
-*   **Live Demo:(https://tiny-paletas-b012f5.netlify.app/)
-*   **GitHub Repository:(https://github.com/AmanaAkterKona/mini-class-scheduler.git)
-
----
-
-## ✨ Key Features
-
-### 👨‍🏫 Teacher Dashboard
-*   **Statistic Overview:** Real-time tracking of total, available, and booked slots.
-*   **Slot Management:** Create 15-minute time slots with a modern date/time picker.
-*   **Conflict Prevention:** Intelligent validation to prevent overlapping or past-dated slots.
-*   **Filtering & Deletion:** View slots by status (All/Available/Booked) and remove unused slots.
-
-### 🎓 Student View
-*   **Available Slots:** A clean interface to see all current opportunities for booking.
-*   **One-Click Booking:** Simplified booking process with instant status updates.
-*   **Dynamic UI:** Booked slots are immediately removed from the student’s view to prevent double booking.
-
-### 🛠️ Technical Excellence
-*   **Premium UI:** Modern dark teal aesthetic with glassmorphism and animated components.
-*   **Persistence:** Data is managed via `localStorage` for seamless sessions without complex database overhead.
-*   **Responsive Design:** Fully optimized for both desktop and mobile viewing.
-
----
-
-## 💻 Tech Stack
-*   **Frontend:** React.js, Vite, Tailwind CSS / Custom CSS
-*   **Icons & UI:** Lucide React / Framer Motion
-*   **Storage:** Browser LocalStorage
-*   **Validation:** Custom logic for time-slot overlap detection
-
----
-
-## 📂 Project Structure
-```text
-mini-class-scheduler/
-├── backend/                # Server-side logic (Bonus/Placeholder)
-│   ├── models/             # Data models
-│   ├── routes/             # API Endpoints
-│   └── Server.js
-├── src/
-│   ├── components/         # Reusable UI Components (Navbar, Footer, Sidebar)
-│   │   ├── SlotForm.jsx    # Slot creation logic
-│   │   └── SlotList.jsx    # Display logic for slots
-│   ├── pages/              # Page views (Student/Teacher Dashboards)
-│   ├── context/            # AuthContext for role management
-│   ├── utils/              # storage.js & validation.js (Business Logic)
-│   ├── App.jsx             # Main Routing & Layout
-│   └── main.jsx
-└── README.md
-🚀 How to Run LocallyClone the repository:Bashgit clone [https://github.com/your-username/mini-class-scheduler.git](https://github.com/your-username/mini-class-scheduler.git)
+```bash
+# Clone the repository
+git clone https://github.com/AmanaAkterKona/mini-class-scheduler.git
 cd mini-class-scheduler
-Install dependencies:Bashnpm install
-Start the development server:Bashnpm run dev
-Access the app:Open http://localhost:5173 in your browser.🔐 Credentials for TestingRoleUsernamePasswordTeacherMr. Rahman(No auth required for demo)StudentRahim(No auth required for demo)Note: Use the Toggle/Nav buttons at the top to switch between the Teacher and Student roles instantly.📝 Implementation LogicOverlap Check: Before adding a slot, the system compares the new start/end time against existing slots in localStorage to ensure a 15-minute buffer.Past Date Validation: Using JavaScript Date() object to block any slot creation for times that have already passed.Data Flow: Centralized state management ensures that when a student books a slot, the Teacher's dashboard reflects the "Booked" status immediately.
+
+# Install dependencies
+npm install
+
+# Create .env file in root
+echo "VITE_API_URL=http://localhost:5000/api" > .env
+
+# Start development server
+npm run dev
+```
+
+App runs at: `http://localhost:5173`
+
+### Backend (Bonus)
+
+```bash
+cd backend
+
+# Install dependencies
+npm install
+
+# Create .env file
+echo "MONGO_URI=your_mongodb_uri" > .env
+echo "PORT=5000" >> .env
+
+# Start backend server
+npm run dev
+```
+
+Backend runs at: `http://localhost:5000`
+
+---
+
+## Credentials
+
+| Role    | Username  | Password     |
+|---------|-----------|--------------|
+| Teacher | teacher   | teacher123   |
+| Student | student   | student123   |
+
+---
+
+## What I Implemented
+
+### Core Requirements
+- **Teacher Dashboard** — shows teacher name, total/available/booked slot counts, add new slots, view all slots
+- **15-minute slots** — every slot is exactly 15 minutes long
+- **No overlapping slots** — validated before adding using time conflict detection
+- **No past slots** — past date/time is blocked on submission
+- **Available / Booked status** — each slot shows its current status
+- **Student View** — students can see all available slots and book them
+- **After booking** — slot is instantly removed from available list
+
+### Bonus Features
+- **Backend API** — Node.js + Express REST API
+- **MongoDB Database** — all data persisted with Mongoose
+- **Authentication** — demo login with role-based routing (Teacher/Student)
+- **Landing Page** — hero section with video background, features, how-it-works, CTA
+- **Confirmation Modal** — students confirm before booking
+- **Delete Slot** — teachers can remove slots
+- **Filter by Status** — filter All / Available / Booked
+- **Sidebar + Topbar** — dashboard layout with navigation
+- **Responsive Design** — works on mobile and desktop
+
+### How Slot Conflicts Are Handled
+
+```js
+// validation.js
+export const isOverlapping = (date, time, existingSlots) => {
+  const newStart = new Date(`${date}T${time}`)
+  const newEnd = new Date(newStart.getTime() + 15 * 60 * 1000)
+
+  return existingSlots.some((slot) => {
+    const existStart = new Date(`${slot.date}T${slot.time}`)
+    const existEnd = new Date(existStart.getTime() + 15 * 60 * 1000)
+    return newStart < existEnd && newEnd > existStart
+  })
+}
+```
+
+### Project Structure
+
+```
+mini-class-scheduler/
+├── backend/
+│   ├── models/
+│   │   └── Slot.js          # MongoDB schema
+│   ├── routes/
+│   │   └── slots.js         # API routes (GET, POST, PATCH, DELETE)
+│   ├── .env                 # MongoDB URI, PORT
+│   └── server.js            # Express server entry
+│
+├── src/
+│   ├── components/
+│   │   ├── hero/Hero.jsx    # Video slideshow hero
+│   │   ├── navbar/Navbar.jsx
+│   │   ├── footer/Footer.jsx
+│   │   ├── sidebar/Sidebar.jsx
+│   │   ├── SlotForm.jsx     # Add slot form with validation
+│   │   └── SlotList.jsx     # Slot list with filter + confirm modal
+│   ├── context/
+│   │   └── AuthContext.jsx  # Demo auth with role-based access
+│   ├── layouts/
+│   │   ├── LandingLayout.jsx
+│   │   └── DashboardLayout.jsx
+│   ├── pages/
+│   │   ├── Landing.jsx      # Landing page
+│   │   ├── Login.jsx        # Login with demo credentials
+│   │   ├── teacher/
+│   │   │   └── TeacherDashboard.jsx
+│   │   └── student/
+│   │       └── StudentDashboard.jsx
+│   ├── routes/
+│   │   └── ProtectedRoute.jsx
+│   ├── utils/
+│   │   ├── storage.js       # API calls to backend
+│   │   └── validation.js    # Overlap + past time validation
+│   ├── App.jsx              # React Router setup
+│   └── App.css              # Global styles
+│
+└── README.md
+```
+
+### Tech Stack
+- **Frontend:** React + Vite
+- **Backend:** Node.js + Express
+- **Database:** MongoDB (Atlas)
+- **Styling:** Custom CSS (dark teal theme)
+- **Icons:** React Icons
