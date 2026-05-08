@@ -25,6 +25,9 @@ function StudentDashboard() {
   }
 
   const availableSlots = slots.filter((s) => s.status === 'available')
+  const myBookings = slots.filter(
+    (s) => s.status === 'booked' && s.bookedBy === user?.name
+  )
 
   const handleBook = async (slotId) => {
     try {
@@ -37,171 +40,88 @@ function StudentDashboard() {
     }
   }
 
-  const myBookings = slots.filter(
-    (s) => s.status === 'booked' && s.bookedBy === user?.name
-  ).length
-
   return (
     <DashboardLayout>
       <div className="student-dashboard">
 
         <style>{`
+          /* ... আপনার existing styles ... */
           .student-dashboard{
             width:100%;
             min-height:100vh;
             padding:20px;
           }
-
-          .page-header{
-            margin-bottom:22px;
-          }
-
+          .page-header{ margin-bottom:22px; }
           .page-title{
-            margin:0;
-            font-size:34px;
-            font-weight:800;
-            color:#f5fdff;
-            letter-spacing:-.5px;
+            margin:0; font-size:34px; font-weight:800;
+            color:#f5fdff; letter-spacing:-.5px;
           }
-
-          .page-subtitle{
-            margin-top:8px;
-            color:#7ea5b7;
-            font-size:15px;
-          }
-
-          .toast{
-            padding:14px 18px;
-            border-radius:14px;
-            margin-bottom:20px;
-            font-weight:600;
-          }
-
+          .page-subtitle{ margin-top:8px; color:#7ea5b7; font-size:15px; }
+          .toast{ padding:14px 18px; border-radius:14px; margin-bottom:20px; font-weight:600; }
           .success-toast{
             background:rgba(0,212,170,.10);
             border:1px solid rgba(0,212,170,.20);
             color:#00d4aa;
           }
-
           .stats-row{
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:18px;
-            margin-bottom:22px;
+            gap:18px; margin-bottom:22px;
           }
-
           .stat-card{
             background:rgba(7,18,24,.78);
             border:1px solid rgba(0,212,170,.10);
-            border-radius:18px;
-            padding:22px;
-            transition:.25s ease;
-            backdrop-filter:blur(14px);
+            border-radius:18px; padding:22px;
+            transition:.25s ease; backdrop-filter:blur(14px);
           }
-
           .stat-card:hover{
             transform:translateY(-4px);
             border-color:rgba(0,212,170,.28);
             box-shadow:0 10px 25px rgba(0,212,170,.08);
           }
-
           .stat-value{
-            display:block;
-            font-size:32px;
-            font-weight:800;
-            line-height:1;
-            color:#f5fdff;
-            margin-bottom:10px;
+            display:block; font-size:32px; font-weight:800;
+            line-height:1; color:#f5fdff; margin-bottom:10px;
           }
-
-          .available-num,
-          .booked-num{
-            color:#00d4aa;
-          }
-
+          .available-num, .booked-num{ color:#00d4aa; }
           .stat-label{
-            color:#7ea5b7;
-            font-size:13px;
-            text-transform:uppercase;
-            letter-spacing:.6px;
+            color:#7ea5b7; font-size:13px;
+            text-transform:uppercase; letter-spacing:.6px;
           }
-
           .section{
             background:rgba(7,18,24,.78);
             border:1px solid rgba(0,212,170,.10);
-            border-radius:22px;
-            padding:24px;
+            border-radius:22px; padding:24px;
             backdrop-filter:blur(16px);
             box-shadow:0 15px 35px rgba(0,0,0,.25);
+            margin-bottom:22px;
           }
-
           .section-title{
-            display:flex;
-            align-items:center;
-            gap:10px;
-            flex-wrap:wrap;
-            margin:0 0 18px;
-            font-size:24px;
-            font-weight:700;
-            color:#f2fbff;
+            display:flex; align-items:center; gap:10px;
+            flex-wrap:wrap; margin:0 0 18px;
+            font-size:24px; font-weight:700; color:#f2fbff;
           }
-
           .section-count{
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            min-width:34px;
-            height:34px;
-            padding:0 12px;
-            border-radius:50px;
-            font-size:14px;
-            font-weight:700;
-            color:#00d4aa;
+            display:inline-flex; align-items:center;
+            justify-content:center; min-width:34px; height:34px;
+            padding:0 12px; border-radius:50px;
+            font-size:14px; font-weight:700; color:#00d4aa;
             background:rgba(0,212,170,.08);
             border:1px solid rgba(0,212,170,.18);
           }
-
-          .empty-state{
-            padding:28px 10px;
-            text-align:center;
-            color:#7ea5b7;
-          }
-
+          .empty-state{ padding:28px 10px; text-align:center; color:#7ea5b7; }
           button{
             background:linear-gradient(135deg,#00b894,#00d4aa)!important;
-            color:#031015!important;
-            border:none!important;
-            font-weight:700!important;
-            border-radius:12px!important;
+            color:#031015!important; border:none!important;
+            font-weight:700!important; border-radius:12px!important;
             padding:12px 18px!important;
           }
-
-          button:hover{
-            filter:brightness(1.08);
-          }
-
-          @media(max-width:768px){
-            .student-dashboard{
-              padding:18px;
-            }
-
-            .page-title{
-              font-size:28px;
-            }
-
-            .section{
-              padding:18px;
-            }
-          }
+          button:hover{ filter:brightness(1.08); }
         `}</style>
 
         <div className="page-header">
-          <div>
-            <h1 className="page-title">Student Dashboard</h1>
-            <p className="page-subtitle">
-              Hello, {user?.name} — book your slot below
-            </p>
-          </div>
+          <h1 className="page-title">Student Dashboard</h1>
+          <p className="page-subtitle">Hello, {user?.name} — book your slot below</p>
         </div>
 
         {booked && (
@@ -210,35 +130,30 @@ function StudentDashboard() {
           </div>
         )}
 
+        {/* STATS */}
         <div className="stats-row">
           <div className="stat-card">
-            <span className="stat-value available-num">
-              {availableSlots.length}
-            </span>
+            <span className="stat-value available-num">{availableSlots.length}</span>
             <span className="stat-label">Available Slots</span>
           </div>
-
           <div className="stat-card">
-            <span className="stat-value booked-num">{myBookings}</span>
+            <span className="stat-value booked-num">{myBookings.length}</span>
             <span className="stat-label">My Bookings</span>
           </div>
-
           <div className="stat-card">
             <span className="stat-value">{slots.length}</span>
             <span className="stat-label">Total Slots</span>
           </div>
         </div>
 
+        {/* AVAILABLE SLOTS */}
         <div className="section">
           <h2 className="section-title">
             Available Slots
             <span className="section-count">{availableSlots.length}</span>
           </h2>
-
           {loading ? (
-            <div className="empty-state">
-              <p>Loading slots...</p>
-            </div>
+            <div className="empty-state"><p>Loading slots...</p></div>
           ) : (
             <SlotList
               slots={availableSlots}
@@ -247,6 +162,21 @@ function StudentDashboard() {
             />
           )}
         </div>
+
+        {/* MY BOOKINGS - নতুন section */}
+        {myBookings.length > 0 && (
+          <div className="section">
+            <h2 className="section-title">
+              My Bookings
+              <span className="section-count">{myBookings.length}</span>
+            </h2>
+            <SlotList
+              slots={myBookings}
+              showBookBtn={false}
+              showDeleteBtn={false}
+            />
+          </div>
+        )}
 
       </div>
     </DashboardLayout>
