@@ -10,7 +10,7 @@ app.use(cors())
 app.use(express.json())
 
 // Routes
-app.use('/api/slots', require('./routes/slots'))
+app.use('/api/slots', require('./routes/Slots'))
 
 // Health check
 app.get('/', (req, res) => {
